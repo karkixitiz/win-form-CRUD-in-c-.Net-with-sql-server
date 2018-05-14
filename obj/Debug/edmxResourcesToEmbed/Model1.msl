@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CustomerModelStoreContainer" CdmEntityContainer="CustomerEntities">
+    <EntitySetMapping Name="Customer">
+      <EntityTypeMapping TypeName="CustomerModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="customerId" ColumnName="customerId" />
+          <ScalarProperty Name="flightId" ColumnName="flightId" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Flight">
+      <EntityTypeMapping TypeName="CustomerModel.Flight">
+        <MappingFragment StoreEntitySet="Flight">
+          <ScalarProperty Name="flightId" ColumnName="flightId" />
+          <ScalarProperty Name="airlineCompany" ColumnName="airlineCompany" />
+          <ScalarProperty Name="origin" ColumnName="origin" />
+          <ScalarProperty Name="destination" ColumnName="destination" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetCustomerInfoByID" FunctionName="CustomerModel.Store.GetCustomerInfoByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CustomerModel.GetCustomerInfoByID_Result">
+          <ScalarProperty Name="customerId" ColumnName="customerId" />
+          <ScalarProperty Name="flightId" ColumnName="flightId" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="flightId1" ColumnName="flightId1" />
+          <ScalarProperty Name="airlineCompany" ColumnName="airlineCompany" />
+          <ScalarProperty Name="origin" ColumnName="origin" />
+          <ScalarProperty Name="destination" ColumnName="destination" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CustomerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="customerId" />
+          </Key>
+          <Property Name="customerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="flightId" Type="int" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="flightId" />
+          </Key>
+          <Property Name="flightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="airlineCompany" Type="nvarchar" MaxLength="50" />
+          <Property Name="origin" Type="nvarchar" MaxLength="50" />
+          <Property Name="destination" Type="nvarchar" MaxLength="50" />
+          <Property Name="date" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Customer_Flight_FlightID">
+          <End Role="Flight" Type="Self.Flight" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="flightId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="flightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetCustomerInfoByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customerId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="CustomerModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Flight" EntityType="Self.Flight" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Customer_Flight_FlightID" Association="Self.FK_Customer_Flight_FlightID">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CustomerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="customerId" />
+          </Key>
+          <Property Name="customerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="flightId" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Flight" Relationship="Self.FK_Customer_Flight_FlightID" FromRole="Customer" ToRole="Flight" />
+        </EntityType>
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="flightId" />
+          </Key>
+          <Property Name="flightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="airlineCompany" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="origin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="destination" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Customer_Flight_FlightID" FromRole="Flight" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_Customer_Flight_FlightID">
+          <End Role="Flight" Type="Self.Flight" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="flightId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="flightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CustomerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="Flight" EntityType="Self.Flight" />
+          <AssociationSet Name="FK_Customer_Flight_FlightID" Association="Self.FK_Customer_Flight_FlightID">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <FunctionImport Name="GetCustomerInfoByID" ReturnType="Collection(CustomerModel.GetCustomerInfoByID_Result)">
+          <Parameter Name="customerId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetCustomerInfoByID_Result">
+          <Property Type="Int32" Name="customerId" Nullable="false" />
+          <Property Type="Int32" Name="flightId" Nullable="true" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="flightId1" Nullable="false" />
+          <Property Type="String" Name="airlineCompany" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="origin" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="destination" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="date" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CustomerModelStoreContainer" CdmEntityContainer="CustomerEntities">
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="CustomerModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="flightId" ColumnName="flightId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Flight">
+            <EntityTypeMapping TypeName="CustomerModel.Flight">
+              <MappingFragment StoreEntitySet="Flight">
+                <ScalarProperty Name="flightId" ColumnName="flightId" />
+                <ScalarProperty Name="airlineCompany" ColumnName="airlineCompany" />
+                <ScalarProperty Name="origin" ColumnName="origin" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetCustomerInfoByID" FunctionName="CustomerModel.Store.GetCustomerInfoByID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CustomerModel.GetCustomerInfoByID_Result">
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="flightId" ColumnName="flightId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="flightId1" ColumnName="flightId1" />
+                <ScalarProperty Name="airlineCompany" ColumnName="airlineCompany" />
+                <ScalarProperty Name="origin" ColumnName="origin" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
